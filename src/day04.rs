@@ -24,7 +24,7 @@ pub fn _day04(){
     let mut go = true;
     let mut field = input;
     while go{
-        let new_field = conv2d(&field, |kernel| if kernel[1][1] == '@' && (kernel.iter().map(|kl: &Vec<char>| kl.iter().map(|c: &char| if *c == '@' {1} else {0}).sum::<u32>()).sum::<u32>() > 4) {'@'} else {'.'}, '.', 3);
+        let new_field = conv2d(&field, |kernel| if kernel[1][1] == '@' && (kernel.iter().map(|kl: &Vec<char>| kl.iter().filter(|c| **c == '@').count()).sum::<usize>() > 4) {'@'} else {'.'}, '.', 3);
         go =  new_field != field;
         field = new_field;
     }
