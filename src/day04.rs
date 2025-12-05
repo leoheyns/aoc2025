@@ -31,6 +31,4 @@ pub fn _day04(){
     let final_count: u32 = field.iter().flat_map(|l| l.iter().map(|c| if *c == '@' {1} else {0})).sum();
     let part2 = roll_count - final_count;
     println!("{part2}")
-    
-
 }
