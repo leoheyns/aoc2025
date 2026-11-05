@@ -55,38 +55,42 @@ fn find_increments(m: Machine) -> Vec<(Vec<u32>, u32)> {
         }
     }
 
-    return result.iter().map(|(k,v)| (k.clone(), v.clone())).collect::<Vec<(Vec<u32>, u32)>>();
+    return result
+        .iter()
+        .map(|(k, v)| (k.clone(), v.clone()))
+        .collect::<Vec<(Vec<u32>, u32)>>();
 }
 
 fn part2(m: Machine) -> u32 {
     let increments_map = find_increments(m.clone());
 
     let mut cache: HashMap<Vec<u32>, u32> = HashMap::new();
-    fn recursive(joltage_goal: Vec<u32>, increments_map: &Vec<(Vec<u32>, u32)>, cache: &mut HashMap<Vec<u32>, u32>) -> u32 {
-
+    fn recursive(
+        joltage_goal: Vec<u32>,
+        increments_map: &Vec<(Vec<u32>, u32)>,
+        cache: &mut HashMap<Vec<u32>, u32>,
+    ) -> u32 {
         if joltage_goal.iter().all(|j| *j == 0) {
             return 0;
         }
-        if cache.contains_key(&joltage_goal){
+        if cache.contains_key(&joltage_goal) {
             return *cache.get(&joltage_goal).unwrap();
         }
 
         let result = increments_map
             .iter()
             .filter(|(inc, _)| {
-                (0..(joltage_goal.len()))
-                    .all(|i| (joltage_goal[i] % 2) == (inc[i] % 2))// && (joltage_goal[i] >= inc[i]))
+                (0..(joltage_goal.len())).all(|i| (joltage_goal[i] % 2) == (inc[i] % 2)) // && (joltage_goal[i] >= inc[i]))
             })
-            .filter(|(inc, _)| {
-                (0..(joltage_goal.len()))
-                    .all(|i| joltage_goal[i] >= inc[i])
-            })
+            .filter(|(inc, _)| (0..(joltage_goal.len())).all(|i| joltage_goal[i] >= inc[i]))
             .map(|(inc, presses)| {
                 (
                     recursive(
                         (0..(joltage_goal.len()))
                             .map(|i| (joltage_goal[i] - inc[i]) / 2)
-                            .collect(), increments_map, cache
+                            .collect(),
+                        increments_map,
+                        cache,
                     ),
                     presses,
                 )
@@ -95,7 +99,7 @@ fn part2(m: Machine) -> u32 {
             .map(|(rec, presses)| rec * 2 + presses)
             .min()
             .unwrap_or(u32::MAX);
-        
+
         cache.insert(joltage_goal, result);
         return result;
     }
@@ -132,7 +136,6 @@ pub fn _day10() {
 
     let part2_result: Vec<u32> = input.iter().map(|m| part2(m.clone())).collect();
 
-    let part2_result_forreal: u32= part2_result.iter().sum();
+    let part2_result_forreal: u32 = part2_result.iter().sum();
     println!("{part2_result_forreal:?}");
-
 }

@@ -8,6 +8,8 @@ mod day05;
 mod day06;
 mod day07;
 mod day10;
+mod day11;
+mod day12;
 pub mod utils;
 
 fn main() {
@@ -22,6 +24,8 @@ fn main() {
         6 => day06::_day06(),
         7 => day07::_day07(),
         10 => day10::_day10(),
+        11 => day11::_day11(),
+        12 => day12::_day12(),
         _ => {}
     }
 }
